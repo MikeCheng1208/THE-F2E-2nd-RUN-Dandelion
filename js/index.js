@@ -1,6 +1,7 @@
 const cw = 800;
 const ch = 450;
 const scale = 0.6;
+const monsterScale = 0.7;
 const gameStart = {
     key: 'gameStart',
     preload: function(){
@@ -10,10 +11,13 @@ const gameStart = {
         this.load.image('bg4', 'images/bg/bg4.png');
         this.load.image('footer', 'images/bg/footer.png');
         this.load.image('rock1', 'images/item-level-1-rock.png');
+        this.load.image('rock2', 'images/item-level-2-smoke-sm.png');
+        this.load.image('rock3', 'images/item-level-1-branch.png');
         this.load.spritesheet('user', 'images/player.png', {frameWidth: 144, frameHeight: 120});
 
-
         this.iskeyJump = true;
+        this.monsterArr = [];    // 存放所有怪物實體
+        this.masIdx = Math.floor(Math.random() * (this.monsterArr.length - 0 + 0) + 0);
     },
     create: function(){
         this.bg4 = this.add.tileSprite(400, 225, cw, ch, 'bg4');
@@ -21,18 +25,13 @@ const gameStart = {
         this.bg2 = this.add.tileSprite(400, 225, cw, ch, 'bg2');
         this.bg1 = this.add.tileSprite(400, 225, cw, ch, 'bg1');
         this.footer = this.add.tileSprite(400, 406, 800, 90, 'footer');
-        this.rock1 = this.add.tileSprite(cw - 200, 330, 200 * 0.6, 104 * 0.6, 'rock1');
         
-
         //設定人物位置與加入物理效果
         this.player = this.physics.add.sprite(150, 150, 'user');
         this.player.setCollideWorldBounds(true); //角色邊界限制
         this.player.setBounce(1); //設定彈跳值
         this.player.setScale(scale); //設定顯示大小
         this.player.setSize(110, 120, 0); //碰撞邊界
-
-        
-        
         this.anims.create({
             key: 'run',
             frames: this.anims.generateFrameNumbers('user', { start: 0, end: 1 }),
@@ -58,15 +57,26 @@ const gameStart = {
             GameObject.body.moves = false;
         }
 
-        addPhysics(this.footer);
-        addPhysics(this.rock1);
+        const masPos = [
+            {name: 'rock1', x: cw + 200, y: 320, w: 160, h: 83},
+            {name: 'rock2', x: cw + 200, y: 315, w: 200, h: 94},
+            {name: 'rock3', x: cw + 200, y: 70, w: 130, h: 160},
+        ]
 
+        for (let i = 0; i < 6; i++) {
+            let BoolIdx = Math.floor(Math.random() * (3 - 0 + 0) + 0);
+            this['rock'+ i] = this.add.tileSprite(masPos[BoolIdx].x, masPos[BoolIdx].y, masPos[BoolIdx].w, masPos[BoolIdx].h, masPos[BoolIdx].name);
+            this['rock'+ i].isRun = false;
+            addPhysics(this['rock'+i]);
+            this.physics.add.collider(this.player, this['rock'+i]);
+            this.monsterArr.push(this['rock'+ i])
+        }
+
+        addPhysics(this.footer);
         this.physics.add.collider(this.player, this.footer);
-        this.physics.add.collider(this.player, this.rock1);
 
         //播放動畫
         this.player.anims.play('run', true);
-        
         
     },
     update: function(){
@@ -74,14 +84,24 @@ const gameStart = {
         this.bg2.tilePositionX += 2;
         this.bg1.tilePositionX += 3;
         this.footer.tilePositionX += 3;
-        // this.rock1.x -= 3;
+
+
+        this.monsterArr[this.masIdx].x -= 3;
+
+        for (let i = 0; i < this.monsterArr.length; i++) {
+            if(this.monsterArr[i].x <= -100){
+                this.monsterArr[i].x = cw + 200;
+                this.monsterArr[i].body.immovable = true;
+                this.monsterArr[i].body.moves = false;
+                this.monsterArr[i].isRun = false;
+                this.masIdx = Math.floor(Math.random() * (this.monsterArr.length - 0 + 0) + 0);
+            }
+        }
 
          // 啟動鍵盤事件
         let cursors = this.input.keyboard.createCursorKeys();
-        
         if (cursors.right.isDown) {
             this.player.setVelocityX(200);
-            // this.player.flipX = false;
             this.player.setSize(144, 120, 0); //碰撞邊界
             this.player.anims.play('speed', true);
         } else if (cursors.left.isDown) {
@@ -92,7 +112,6 @@ const gameStart = {
             this.player.setSize(110, 120, 0); //碰撞邊界
             this.player.anims.play('run', true);
         }
-
         if (cursors.up.isDown) {
             if(this.iskeyJump){
                 this.iskeyJump = false;
@@ -114,7 +133,7 @@ const config = {
             gravity: {
                 y: 450
             },
-            debug: true,
+            // debug: true,
         },
     },
     scene: [
