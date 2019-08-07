@@ -18,6 +18,7 @@ const gameStart = {
         this.iskeyJump = true;
         this.monsterArr = [];    // 存放所有怪物實體
         this.masIdx = Math.floor(Math.random() * (this.monsterArr.length - 0 + 0) + 0);
+        this.gameStop = false;
     },
     create: function(){
         this.bg4 = this.add.tileSprite(400, 225, cw, ch, 'bg4');
@@ -31,7 +32,7 @@ const gameStart = {
         this.player.setCollideWorldBounds(true); //角色邊界限制
         this.player.setBounce(1); //設定彈跳值
         this.player.setScale(scale); //設定顯示大小
-        this.player.setSize(110, 120, 0); //碰撞邊界
+
         this.anims.create({
             key: 'run',
             frames: this.anims.generateFrameNumbers('user', { start: 0, end: 1 }),
@@ -67,19 +68,30 @@ const gameStart = {
             let BoolIdx = Math.floor(Math.random() * (3 - 0 + 0) + 0);
             this['rock'+ i] = this.add.tileSprite(masPos[BoolIdx].x, masPos[BoolIdx].y, masPos[BoolIdx].w, masPos[BoolIdx].h, masPos[BoolIdx].name);
             this['rock'+ i].isRun = false;
-            addPhysics(this['rock'+i]);
-            this.physics.add.collider(this.player, this['rock'+i]);
             this.monsterArr.push(this['rock'+ i])
+            addPhysics(this['rock'+i]);
+            this.physics.add.collider(this.player, this['rock'+i], hittest);
         }
+
+        function hittest(player, rock){
+            this.gameStop = true;
+        }
+
 
         addPhysics(this.footer);
         this.physics.add.collider(this.player, this.footer);
 
         //播放動畫
         this.player.anims.play('run', true);
+    
+        
+
+
         
     },
     update: function(){
+        if(this.gameStop) return;
+
         this.bg3.tilePositionX += 1;
         this.bg2.tilePositionX += 2;
         this.bg1.tilePositionX += 3;
@@ -91,9 +103,6 @@ const gameStart = {
         for (let i = 0; i < this.monsterArr.length; i++) {
             if(this.monsterArr[i].x <= -100){
                 this.monsterArr[i].x = cw + 200;
-                this.monsterArr[i].body.immovable = true;
-                this.monsterArr[i].body.moves = false;
-                this.monsterArr[i].isRun = false;
                 this.masIdx = Math.floor(Math.random() * (this.monsterArr.length - 0 + 0) + 0);
             }
         }
@@ -109,8 +118,8 @@ const gameStart = {
             this.player.anims.play('jump', true);
         } else {
             this.player.setVelocityX(0);
-            this.player.setSize(110, 120, 0); //碰撞邊界
             this.player.anims.play('run', true);
+            this.player.setSize(110, 90, 0); //碰撞邊界
         }
         if (cursors.up.isDown) {
             if(this.iskeyJump){
@@ -131,9 +140,9 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: {
-                y: 450
+                y: 850
             },
-            // debug: true,
+            debug: true,
         },
     },
     scene: [
