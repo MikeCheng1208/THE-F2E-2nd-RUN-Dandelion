@@ -1,5 +1,6 @@
 const cw = 800;
-const ch = 360;
+const ch = 450;
+const scale = 0.6;
 const gameStart = {
     key: 'gameStart',
     preload: function(){
@@ -10,23 +11,28 @@ const gameStart = {
         this.load.image('footer', 'images/bg/footer.png');
         this.load.image('rock1', 'images/item-level-1-rock.png');
         this.load.spritesheet('user', 'images/player.png', {frameWidth: 144, frameHeight: 120});
+
+
+        this.iskeyJump = true;
     },
     create: function(){
-        this.bg4 = this.add.tileSprite(400, 180, 800, 360, 'bg4');
-        this.bg3 = this.add.tileSprite(400, 180, 800, 360, 'bg3');
-        this.bg2 = this.add.tileSprite(400, 180, 800, 360, 'bg2');
-        this.bg1 = this.add.tileSprite(400, 180, 800, 360, 'bg1');
-        this.footer = this.add.tileSprite(400, 310, 800, 90, 'footer');
-        this.rock1 = this.add.tileSprite(cw, 215, 200, 104, 'rock1');
-        // this.rock1.setScale(0.6);
+        this.bg4 = this.add.tileSprite(400, 225, cw, ch, 'bg4');
+        this.bg3 = this.add.tileSprite(400, 225, cw, ch, 'bg3');
+        this.bg2 = this.add.tileSprite(400, 225, cw, ch, 'bg2');
+        this.bg1 = this.add.tileSprite(400, 225, cw, ch, 'bg1');
+        this.footer = this.add.tileSprite(400, 406, 800, 90, 'footer');
+        this.rock1 = this.add.tileSprite(cw - 200, 330, 200 * 0.6, 104 * 0.6, 'rock1');
+        
 
         //設定人物位置與加入物理效果
-        this.player = this.physics.add.sprite(150, 50, 'user');
+        this.player = this.physics.add.sprite(150, 150, 'user');
         this.player.setCollideWorldBounds(true); //角色邊界限制
-        this.player.setBounce(0.2); //設定彈跳值
-        this.player.setScale(0.6); //設定顯示大小
+        this.player.setBounce(1); //設定彈跳值
+        this.player.setScale(scale); //設定顯示大小
         this.player.setSize(110, 120, 0); //碰撞邊界
 
+        
+        
         this.anims.create({
             key: 'run',
             frames: this.anims.generateFrameNumbers('user', { start: 0, end: 1 }),
@@ -60,7 +66,7 @@ const gameStart = {
 
         //播放動畫
         this.player.anims.play('run', true);
-        console.log(this.player);
+        
         
     },
     update: function(){
@@ -71,24 +77,30 @@ const gameStart = {
         // this.rock1.x -= 3;
 
          // 啟動鍵盤事件
-         let cursors = this.input.keyboard.createCursorKeys();
-         if (cursors.right.isDown) {
-             this.player.setVelocityX(200);
-             this.player.flipX = false;
-             this.player.setSize(144, 120, 0); //碰撞邊界
-             this.player.anims.play('speed', true);
-         } else if (cursors.left.isDown) {
-             this.player.setVelocityX(-260);
-             this.player.setSize(144, 120, 0); //碰撞邊界
-             this.player.anims.play('speed', true);
-         } else {
+        let cursors = this.input.keyboard.createCursorKeys();
+        
+        if (cursors.right.isDown) {
+            this.player.setVelocityX(200);
+            // this.player.flipX = false;
+            this.player.setSize(144, 120, 0); //碰撞邊界
+            this.player.anims.play('speed', true);
+        } else if (cursors.left.isDown) {
+            this.player.setVelocityX(-300);
+            this.player.anims.play('jump', true);
+        } else {
             this.player.setVelocityX(0);
             this.player.setSize(110, 120, 0); //碰撞邊界
             this.player.anims.play('run', true);
-         }
-         if (cursors.up.isDown && this.player.body.touching.down) {
-             this.player.setVelocityY(-700);
-         }
+        }
+
+        if (cursors.up.isDown) {
+            if(this.iskeyJump){
+                this.iskeyJump = false;
+                this.player.setVelocityY(-200);
+            }
+        }else{
+            this.iskeyJump = true;
+        }
     }
 }
 const config = {
@@ -100,9 +112,9 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: {
-                y: 1500
+                y: 450
             },
-            // debug: true,
+            debug: true,
         },
     },
     scene: [
