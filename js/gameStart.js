@@ -6,8 +6,9 @@ const gameStart = {
         this.load.image('bg3', 'images/bg/bg3.png');
         this.load.image('bg4', 'images/bg/bg4.png');
         this.load.image('footer', 'images/bg/footer.png');
-        this.load.image('title', 'images/ui/txt-congratulations.png');
-        this.load.image('playBtn', 'images/ui/btn-play-again.png');
+        this.load.image('title', 'images/ui/txt-title.png');
+        this.load.image('playBtn', 'images/ui/btn-press-start.png');
+        this.load.image('logo', "images/ui/player-end.png");
     },
     create: function(){
         this.bg4 = this.add.tileSprite(400, 225, cw, ch, 'bg4');
@@ -15,10 +16,19 @@ const gameStart = {
         this.bg2 = this.add.tileSprite(400, 225, cw, ch, 'bg2');
         this.bg1 = this.add.tileSprite(400, 225, cw, ch, 'bg1');
         this.footer = this.add.tileSprite(400, 404, 800, 90, 'footer');
-        this.title = this.add.sprite(cw / 2, ch / 2 - 50, 'title');
-        this.playBtn = this.add.sprite(cw / 2, ch / 2 + 50, 'playBtn');
-        this.title.setScale(0.7);
-        this.playBtn.setScale(0.6);
+        let title = this.title;
+        title = this.add.image(cw / 2, ch / 2 - 115, 'title');
+        title.setScale(0.6);
+
+        let playBtn = this.playBtn;
+        playBtn = this.add.image(cw / 2, ch / 2, 'playBtn');
+        playBtn.setScale(0.5);
+        playBtn.setInteractive();
+        playBtn.on('pointerdown', () => this.scene.start('gamePlay'))
+
+        let logo = this.logo;
+        logo = this.add.image(cw / 2, ch / 2 + 95, 'logo');
+        logo.setScale(0.4);
         
     },
     update: function(){

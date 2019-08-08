@@ -15,7 +15,7 @@ const gamePlay = {
         this.monsterArr = [];    // 存放所有怪物實體
         this.masIdx = Math.floor(Math.random() * (this.monsterArr.length - 0 + 0) + 0);
         this.gameStop = false;
-        this.bgSpeed = 1;
+        this.bgSpeed = 1.3;
     },
     create: function(){
         this.bg4 = this.add.tileSprite(400, 225, cw, ch, 'bg4');
@@ -43,7 +43,7 @@ const gamePlay = {
         // 怪物的座標資訊
         const masPos = [
             {name: 'rock1', x: cw + 200, y: 320, w: 160, h: 83},
-            {name: 'rock2', x: cw + 200, y: 315, w: 200, h: 94},
+            {name: 'rock2', x: cw + 200, y: ch / 2 - 30 , w: 200, h: 94},
             {name: 'rock3', x: cw + 200, y: 70, w: 130, h: 160},
         ]
 
@@ -56,7 +56,7 @@ const gamePlay = {
         }
 
         // 產生怪物
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 10; i++) {
             let BoolIdx = Math.floor(Math.random() * (3 - 0 + 0) + 0);
             this['rock'+ i] = this.add.tileSprite(masPos[BoolIdx].x, masPos[BoolIdx].y, masPos[BoolIdx].w, masPos[BoolIdx].h, masPos[BoolIdx].name);
             this.monsterArr.push(this['rock'+ i]);
