@@ -60,6 +60,13 @@ const gamePlay = {
             {name: 'rock3', x: cw + 200, y: 70, w: 130, h: 160},
         ]
 
+        //碰撞到後停止遊戲
+        const hittest = (player, rock) => {
+            this.gameStop = true;
+            this.player.setBounce(0);
+        }
+
+
         for (let i = 0; i < 6; i++) {
             let BoolIdx = Math.floor(Math.random() * (3 - 0 + 0) + 0);
             this['rock'+ i] = this.add.tileSprite(masPos[BoolIdx].x, masPos[BoolIdx].y, masPos[BoolIdx].w, masPos[BoolIdx].h, masPos[BoolIdx].name);
@@ -68,13 +75,6 @@ const gamePlay = {
             addPhysics(this['rock'+i]);
             this.physics.add.collider(this.player, this['rock'+i], hittest);
         }
-
-        const self = this;
-        function hittest(player, rock){
-            self.gameStop = true;
-            self.player.setBounce(0);
-        }
-
 
         addPhysics(this.footer);
         this.physics.add.collider(this.player, this.footer);
