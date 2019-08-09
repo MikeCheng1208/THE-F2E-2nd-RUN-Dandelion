@@ -13,8 +13,8 @@ const config = {
         },
     },
     scene: [
-        gameStart,
         gamePlay,
+        gameStart,
     ]
 }
 
