@@ -16,18 +16,16 @@ const gameStart = {
         this.bg2 = this.add.tileSprite(400, 225, cw, ch, 'bg2');
         this.bg1 = this.add.tileSprite(400, 225, cw, ch, 'bg1');
         this.footer = this.add.tileSprite(400, 404, 800, 90, 'footer');
-        let title = this.title;
-        title = this.add.image(cw / 2, ch / 2 - 115, 'title');
+
+        let title = this.add.image(cw / 2, ch / 2 - 115, 'title');
         title.setScale(0.6);
 
-        let playBtn = this.playBtn;
-        playBtn = this.add.image(cw / 2, ch / 2, 'playBtn');
+        let playBtn = this.add.image(cw / 2, ch / 2, 'playBtn');
         playBtn.setScale(0.5);
         playBtn.setInteractive();
         playBtn.on('pointerdown', () => this.scene.start('gamePlay'))
 
-        let logo = this.logo;
-        logo = this.add.image(cw / 2, ch / 2 + 95, 'logo');
+        let logo = this.add.image(cw / 2, ch / 2 + 95, 'logo');
         logo.setScale(0.4);
         
     },
