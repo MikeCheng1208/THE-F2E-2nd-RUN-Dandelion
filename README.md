@@ -31,7 +31,7 @@
  - Arcade引擎相關api [Arcade.immovable](https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Body.html#immovable__anchor)
  - 事件相關api [Phaser.Events](https://photonstorm.github.io/phaser3-docs/Phaser.Input.Events.html)
  - 事件註冊器 [Phaser.Events. EventEmitter](https://photonstorm.github.io/phaser3-docs/Phaser.Events.EventEmitter.html)
- - 開啟物件互動設定 [setInteractive](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.GameObject.html#setInteractive__anchor)
+ - 開啟物件互動設定 [setInteractive](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.GameObject.html#setInteractive)
  - 圖片容器 [image](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Image.html)
  - Sprite容器 [Sprite](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.Sprite.html)
  - TileSprite容器 [TileSprite](https://photonstorm.github.io/phaser3-docs/Phaser.GameObjects.TileSprite.html)
