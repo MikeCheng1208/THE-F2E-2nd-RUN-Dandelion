@@ -20,6 +20,7 @@
  - 場景切換 [scene.start](https://photonstorm.github.io/phaser3-docs/Phaser.Scenes.ScenePlugin.html#start__anchor)
  - 物理引擎 [Phaser.Physics](https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.html)
  - 物理引擎設定 [PhysicsConfig](https://photonstorm.github.io/phaser3-docs/Phaser.Types.Core.html#.PhysicsConfig)
+ - 反彈値 [Bounce](https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Components.Bounce.html)
  - 物理邊界相關設定 [Physics Bounds](https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Components.Bounce.html)
  - 物理邊界大小設定 [Physics Size](https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Components.Size.html)
  - 物理邊界變形設定 [Physics Transform](https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Matter.Components.Transform.html#setScale__anchor)
